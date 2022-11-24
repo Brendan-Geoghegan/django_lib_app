@@ -8,4 +8,4 @@ urlpatterns = [
     path("<int:id>/", views.show, name="books-show")
 ]
 
-handler404 = 'books.views.handle_404'
+

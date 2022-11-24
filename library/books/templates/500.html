@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}Error 404{% endblock title %}
-{% block heading %}<h1>Error 404</h1>{% endblock heading %}
+{% block title %}Error 500{% endblock title %}
+{% block heading %}<h1>Error 500</h1>{% endblock heading %}
 {% block content %}
-<h2>This page doesn't exist</h2>
+<h2>Server error</h2>
 <p>Click here to return to <a href="{% url 'books-home' %}">Home</a></p>
 {% endblock content %}
