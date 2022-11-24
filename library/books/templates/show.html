@@ -8,14 +8,24 @@
 {% if not book.borrower %}
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ borrowForm.as_p }}
             <input type="submit" value="Borrow me!">
         </form>
     {% else %}
         {% if book.borrower == user %}
             <div>Thank you for borrowing me!</div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ borrowForm.as_p }}
+                <input type="submit" value="Return me!">
+            </form>
         {% else %}
             <div>I have been borrowed by {{book.borrower.username}}!</div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ borrowForm.as_p }}
+                <input type="submit" value="Borrow me!" disabled>
+            </form>
         {% endif %}
     {% endif %}
 {% endblock content %}
