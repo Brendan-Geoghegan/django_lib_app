@@ -18,16 +18,20 @@ def list(request):
 def show(request, id):
     book = get_object_or_404(Book, pk=id)
     if request.method == 'POST':
-        form = BorrowBookForm(request.POST)
-        if form.is_valid():
-            book.borrower = request.user
+        borrowForm = BorrowBookForm(request.POST)
+        if borrowForm.is_valid():
+            print("borrow book")
+            if book.borrower == request.user:
+                book.borrower = None
+            elif book.borrower !=  request.user:
+                book.borrower = request.user
             book.save()
             return redirect("books-show", id=id)
     else:
-        form = BorrowBookForm(initial={'borrower': request.user})
+        borrowForm = BorrowBookForm(initial={'borrower': request.user})
     data = {
         'book': book,
-        'form': form
+        'borrowForm': borrowForm,
     }
     return render(request, "show.html", data)
 
