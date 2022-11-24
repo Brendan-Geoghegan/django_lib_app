@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book
 from django.contrib.auth.decorators import login_required
-from .forms import NewBookForm
+from .forms import NewBookForm, BorrowBookForm
 
 # Create your views here.
 def home(request):
@@ -17,7 +17,19 @@ def list(request):
 @login_required
 def show(request, id):
     book = get_object_or_404(Book, pk=id)
-    return render(request, "show.html", {"book": book})
+    if request.method == 'POST':
+        form = BorrowBookForm(request.POST)
+        if form.is_valid():
+            book.borrower = request.user
+            book.save()
+            return redirect("books-show", id=id)
+    else:
+        form = BorrowBookForm(initial={'borrower': request.user})
+    data = {
+        'book': book,
+        'form': form
+    }
+    return render(request, "show.html", data)
 
 @login_required
 def create(request):
